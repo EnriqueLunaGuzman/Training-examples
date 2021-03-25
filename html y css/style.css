@@ -1,0 +1,18 @@
+p{
+    color: red;
+}
+
+#intro {
+    color: blue;
+}
+
+.introl {
+    color: chocolate;
+    background-color: black;
+}
+
+#intro .introl em {
+    color: blueviolet;
+    background-color: coral;
+
+}
