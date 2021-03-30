@@ -1,0 +1,16 @@
+{
+  "name": "actividad-4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsconfig": "tsc --init",
+    "start": "tsc --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
+}
