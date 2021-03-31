@@ -54,3 +54,6 @@ var user = {
 };
 var userData;
 userData = user;
+//Union type
+//let myAge2: number | string - 27;
+var myObj = null;

@@ -71,3 +71,7 @@ let user = {
 let userData: Complex;
 userData = user;
 
+//Union type
+//let myAge2: number | string - 27;
+let myObj: string | null = null;
+
