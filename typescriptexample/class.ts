@@ -96,3 +96,85 @@ console.log(obj4);
 let obj5 = new Helper( );
 console.log(obj5);
 // let result4 - obj4.calculateCircumference ( 12 );
+
+//Abstrac class
+abstract class Employee {
+    name: string;
+    id: string;
+
+    constructor( name: string, id: string ) {
+        this.name = name;
+        this.id = id;
+    }
+
+    abstract getSalary( ): number;
+
+    getDetails( ): string {
+        return `Name: ${this.name} Id: ${this.id}`;
+    }
+}
+
+class Developer extends Employee {
+   
+    getSalary( ) {
+        return 7000;
+    }
+}
+
+let tom = new Developer( 'Tom', 'EMP002' );
+//------------------------------------------------------
+
+//Interface
+interface IEmployee1 {
+
+    name: string;
+    id: string;
+    getDetails( ): string;
+
+}
+
+class Employee1 implements IEmployee1 {
+    name: string;
+    id: string;
+
+    constructor( name: string, id: string ) {
+        this.name = name;
+        this.id = id;
+    }
+
+    getDetails( ): string {
+        return `Name: ${this.name} Id: ${this.id}`;
+    }
+}
+
+let emp1 = new Employee1( 'Mark', 'EMP004' );
+
+interface IEmployeeNew extends IEmployee1 {
+    age: number;
+}
+
+//---------------------------------------------------
+
+class Encryptor {
+
+    encryt( data: string ): string {
+        return data;
+    }
+
+    decryt( data: string ): string {
+        return data;
+    }
+}
+
+class SymmetricEncrytion {
+
+}
+
+class ASymmetricEncrytion {
+
+}
+
+// usage
+//let enc = new SymmetricEncrytion();
+let enc = new Encryptor();
+let result1 = enc.encryt('Hello');
