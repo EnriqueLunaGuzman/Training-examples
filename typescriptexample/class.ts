@@ -166,15 +166,88 @@ class Encryptor {
     }
 }
 
-class SymmetricEncrytion {
+//class SymmetricEncrytion {
 
-}
+//}
 
-class ASymmetricEncrytion {
+//class ASymmetricEncrytion {
 
-}
+//}
 
 // usage
 //let enc = new SymmetricEncrytion();
 let enc = new Encryptor();
 let result1 = enc.encryt('Hello');
+
+// Encrytion cluster
+interface IEncryption {
+    encrypt( data: string ): string;
+    decrypt( data: string ): string;
+}
+
+class SymmetricEncrytion implements IEncryption {
+    encrypt( data: string ): string {
+        return `xyz${data}`;
+    }
+
+    decrypt( data: string ): string {
+        return data.slice(3);
+    }
+}
+
+class AsymmetricEncrytion implements IEncryption {
+    encrypt( data: string ): string {
+        return `abc${data}`;
+    }
+
+    decrypt( data: string ): string {
+        return data.slice(3);
+    }
+}
+
+class CrazyEncrytion implements IEncryption {
+    encrypt( data: string ): string {
+        return `---${data}`;
+    }
+
+    decrypt( data: string ): string {
+        return data.slice(3);
+    }
+}
+
+// Persistance cluster
+class Oracle {
+    encObj: IEncryption;
+
+    constructor( encObj: IEncryption ) {
+        this.encObj = encObj;
+    }
+
+    save( data: string ): void {
+        let encryptedData = this.encObj.encrypt(data);
+        console.log('Oracle data :', encryptedData);
+        // save 'encryptedData' to DB
+    }
+}
+
+// Use Oracle to save data
+// TODO: Read a config file & get what encryption is used
+let dbObj = new Oracle(new CrazyEncrytion());
+dbObj.save( 'Hello' );
+//--------------------------------
+
+// Interface in fuctions
+interface IPerson {
+    name: string;
+    age: number;
+}
+function greet ( xyz: IPerson ) {
+    console.log(`Hello ${xyz.name}`);
+}
+
+//usage
+let person = {
+    name: 'Steve',
+    age: 21
+}
+greet( person );

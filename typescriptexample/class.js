@@ -147,17 +147,69 @@ var Encryptor = /** @class */ (function () {
     };
     return Encryptor;
 }());
-var SymmetricEncrytion = /** @class */ (function () {
-    function SymmetricEncrytion() {
-    }
-    return SymmetricEncrytion;
-}());
-var ASymmetricEncrytion = /** @class */ (function () {
-    function ASymmetricEncrytion() {
-    }
-    return ASymmetricEncrytion;
-}());
+//class SymmetricEncrytion {
+//}
+//class ASymmetricEncrytion {
+//}
 // usage
 //let enc = new SymmetricEncrytion();
 var enc = new Encryptor();
 var result1 = enc.encryt('Hello');
+var SymmetricEncrytion = /** @class */ (function () {
+    function SymmetricEncrytion() {
+    }
+    SymmetricEncrytion.prototype.encrypt = function (data) {
+        return "xyz" + data;
+    };
+    SymmetricEncrytion.prototype.decrypt = function (data) {
+        return data.slice(3);
+    };
+    return SymmetricEncrytion;
+}());
+var AsymmetricEncrytion = /** @class */ (function () {
+    function AsymmetricEncrytion() {
+    }
+    AsymmetricEncrytion.prototype.encrypt = function (data) {
+        return "abc" + data;
+    };
+    AsymmetricEncrytion.prototype.decrypt = function (data) {
+        return data.slice(3);
+    };
+    return AsymmetricEncrytion;
+}());
+var CrazyEncrytion = /** @class */ (function () {
+    function CrazyEncrytion() {
+    }
+    CrazyEncrytion.prototype.encrypt = function (data) {
+        return "---" + data;
+    };
+    CrazyEncrytion.prototype.decrypt = function (data) {
+        return data.slice(3);
+    };
+    return CrazyEncrytion;
+}());
+// Persistance cluster
+var Oracle = /** @class */ (function () {
+    function Oracle(encObj) {
+        this.encObj = encObj;
+    }
+    Oracle.prototype.save = function (data) {
+        var encryptedData = this.encObj.encrypt(data);
+        console.log('Oracle data :', encryptedData);
+        // save 'encryptedData' to DB
+    };
+    return Oracle;
+}());
+// Use Oracle to save data
+// TODO: Read a config file & get what encryption is used
+var dbObj = new Oracle(new CrazyEncrytion());
+dbObj.save('Hello');
+function greet(xyz) {
+    console.log("Hello " + xyz.name);
+}
+//usage
+var person = {
+    name: 'Steve',
+    age: 21
+};
+greet(person);
