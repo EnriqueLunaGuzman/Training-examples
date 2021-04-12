@@ -35,6 +35,11 @@ const Form = ( props ) => {
 // Class component with state
 class Form1 extends React.Component {
 
+    constructor( ) {
+        super( );
+        console.log('constructor');
+    }
+
     state = {title: '', desc: ''};
 
     titleChangeHandler = ( event ) => {
@@ -51,8 +56,10 @@ class Form1 extends React.Component {
     }
     
     render( ) {
+        console.log('render');
         return (
             <div className="Box">
+                <h3>{this.props.name}</h3>
                 <label>Blog Title</label><br />
                 <input type="text" onChange={this.titleChangeHandler} /><br />
                 <label>Blog Description</label><br />
@@ -61,14 +68,26 @@ class Form1 extends React.Component {
             </div>
         );
      }
+
+    componentDidMount( ) {
+        console.log('componentDidMount');
     }
+    
+    componentDidUpdate( ) {
+        console.log('componentDidUpdate');
+    }
+
+    componentWillUnmount( ) {
+        console.log('componentWillUnmont');
+    }
+}
 
 class App extends React.Component {
 
     render ( ) {
         return (
             <div className="App">
-                <Form1 />
+                <Form1 name="Blog2" />
             </div>
         );
     }
