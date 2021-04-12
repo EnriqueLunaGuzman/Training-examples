@@ -5,3 +5,8 @@
     width: 300px;
     padding: 20px;
 }
+
+.App {
+    display: flex;
+    justify-content: center;
+}
