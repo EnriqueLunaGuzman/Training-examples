@@ -3,6 +3,8 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
+import MyAppBar from '../layouts/AppBar';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -21,15 +23,15 @@ const MasterLayout = ( props: any ) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} direction="column" justify="space-between" alignItems="stretch">
         <Grid item xs={12}>
-            <p>Home | About | Contact</p>
+            <MyAppBar />
         </Grid>
         <Grid item xs={12}>
             {props.children}
         </Grid>
         <Grid item xs={12}>
-            Copyright 2021
+            <Paper elevation={0} className={classes.paper}>Copyright 2021</Paper>
         </Grid>
       </Grid>
     </div>

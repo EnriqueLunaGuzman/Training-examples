@@ -5,9 +5,11 @@ import Layout from '../../layouts/Layout';
 class HomePage extends Component {
 
   render( ) {
-        const dataJSX = <p>Welcome!</p>;
+    console.log(this.props)
     return (
-      <Layout title="Home Page" data={dataJSX} />
+      <Layout>
+        <p>Home component</p>
+      </Layout>
     );
   }
 }

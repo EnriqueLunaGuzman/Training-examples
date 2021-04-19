@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         flexShrink: 0,
       },
     },
-    appBar: {
+/*     appBar: {
       [theme.breakpoints.up('sm')]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -40,11 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         display: 'none',
       },
-    },
+    }, */
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+      height: 400,
+      position: 'static',
     },
     content: {
       flexGrow: 1,
@@ -58,9 +60,10 @@ interface Props {
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
+    children: any;
   // items: {}[];
-  title: string;
-  data: any;
+  // title: string;
+  // data: any;
   window?: () => Window;
 }
 
@@ -74,7 +77,7 @@ const Layout = ( props: Props ) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
+  /* const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
@@ -87,6 +90,23 @@ const Layout = ( props: Props ) => {
         ))}
       </List>
     </div>
+  ); */
+
+  const drawer = (
+    <div>
+     {/*  <div className={classes.toolbar} /> */}
+      <Divider />
+      <List>
+          <ListItem button>
+            <ListItemIcon><InboxIcon /> </ListItemIcon>
+            <ListItemText primary="Inbox" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon><MailIcon /> </ListItemIcon>
+            <ListItemText primary="Drafts" />
+          </ListItem>
+      </List>
+    </div>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -94,7 +114,7 @@ const Layout = ( props: Props ) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      { /* <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -106,10 +126,10 @@ const Layout = ( props: Props ) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {props.title}
+             props.title 
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */ }
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -142,8 +162,9 @@ const Layout = ( props: Props ) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {props.data}
+        {/* <div className={classes.toolbar} /> */}
+        {props.children}
+        { /* props.data */}
         {/* <Typography paragraph>
           
         </Typography>

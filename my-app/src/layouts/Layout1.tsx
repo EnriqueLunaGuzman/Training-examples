@@ -15,7 +15,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
@@ -24,16 +23,13 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
     },
-    title: {
-        flexGrow: 1,
-      },
     drawer: {
       [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
         flexShrink: 0,
       },
     },
-    appBar: {
+/*     appBar: {
       [theme.breakpoints.up('sm')]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
@@ -44,11 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         display: 'none',
       },
-    },
+    }, */
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+      height: 400,
+      position: 'static',
     },
     content: {
       flexGrow: 1,
@@ -62,13 +60,14 @@ interface Props {
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
+    children: any;
   // items: {}[];
-  title: string;
-  data: any;
+  // title: string;
+  // data: any;
   window?: () => Window;
 }
 
-const Layout2 = ( props: Props ) => {
+const Layout1 = ( props: Props ) => {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -80,15 +79,16 @@ const Layout2 = ( props: Props ) => {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem button>
+            <ListItemIcon><InboxIcon /> </ListItemIcon>
+            <ListItemText primary="Users" />
           </ListItem>
-        ))}
+          <ListItem button>
+            <ListItemIcon><MailIcon /> </ListItemIcon>
+            <ListItemText primary="Admin" />
+          </ListItem>
       </List>
     </div>
   );
@@ -98,17 +98,6 @@ const Layout2 = ( props: Props ) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-          <AppBar position="static">
-              <Toolbar>
-                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                      <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" className={classes.title}>
-                      News
-                 </Typography>
-                  <Button color="inherit">Login</Button>
-              </Toolbar>
-          </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -141,17 +130,10 @@ const Layout2 = ( props: Props ) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {props.data}
-        {/* <Typography paragraph>
-          
-        </Typography>
-        <Typography paragraph>
-          
-        </Typography> */}
+        {props.children}
       </main>
     </div>
   );
 }
 
-export default Layout2;
+export default Layout1;
