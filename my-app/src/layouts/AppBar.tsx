@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,9 +22,22 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface Props extends RouteComponentProps{
+
+}
+
 const MyAppBar = ( props: any ) => {
   const classes = useStyles();
-  console.log('MyAppBar : ', props);
+  // console.log('MyAppBar : ', props);
+
+  const homeButtonClickHandler = ( ) => {
+    // console.log('MyAppBar homeButtonHandler');
+    props.history.push( {pathname: '/'} );
+  }
+  const adminButtonClickHandler = ( ) => {
+    // console.log('MyAppBar adminButtonHandler');
+    props.history.push( {pathname: '/admin'} );
+  }
 
   return (
     <div className={classes.root}>
@@ -36,8 +49,8 @@ const MyAppBar = ( props: any ) => {
           <Typography variant="h6" className={classes.title}>
             My Application
           </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Admin</Button>
+          <Button color="inherit" onClick={homeButtonClickHandler}>Home</Button>
+          <Button color="inherit" onClick={adminButtonClickHandler}>Admin</Button>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
