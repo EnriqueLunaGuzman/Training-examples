@@ -1,39 +1,66 @@
-import React from 'react';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { Theme, withStyles, StyleRules } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = (theme: Theme): StyleRules => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& > *': {
+        margin: theme.spacing(1),
+        height: theme.spacing(16),
+      }, 
+    },
+});
+
+/* const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-   /*    '& > *': {
+      '& > *': {
         margin: theme.spacing(1),
-        width: theme.spacing(16),
+        //width: theme.spacing(16),
         height: theme.spacing(16),
-      }, */
+      }, 
     },
   }),
-);
+); */
 
-const Inbox = () => {
-  const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <Paper elevation={3}>
-                <Typography variant="h5" gutterBottom>
-                    h5. Heading
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                    body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                    unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-                    dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-                </Typography>
-            </Paper>
-        </div>
-    );
+interface IProps {
+  classes: any;
 }
 
-export default Inbox;
+class Inbox extends Component<IProps> {
+
+ /*  constructor( ) {
+    super();
+    console.log('Inbox constructor');
+  } */
+
+  render() {
+    console.log('Inbox componentDidMount');
+    // to fetch data from backend
+    return (
+      <div className={this.props.classes.root}>
+        <Paper elevation={1}>
+          <Typography variant="subtitle2" gutterBottom>
+            subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
+                </Typography>
+          <Typography variant="body1" gutterBottom>
+            body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
+            unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
+            dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
+                </Typography>
+        </Paper>
+      </div>
+    );
+  }
+
+  componentDidMount( ) {
+    console.log('Inbox componentDidMount');
+  }
+}
+
+export default withStyles(useStyles)(Inbox);

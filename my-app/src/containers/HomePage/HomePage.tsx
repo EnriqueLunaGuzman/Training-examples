@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import Layout from '../../layouts/Layout';
+import Inbox from '../../components/inbox/inbox';
 
 class HomePage extends Component {
 
   render( ) {
-    // console.log('HomePage props : ', this.props)
     return (
-      <Layout>
-        <p>Home component</p>
-        {/* <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/admin" component={AdminPage} />
-        </Switch> */}
+      <Layout list={['Inbox', 'Starred']}>
+        <Switch>
+          <Route path="/" exact render={() => <h3>Welcome to Home!</h3>} />
+          <Route path="/home/inbox" exact render={() => <Inbox />} />
+          <Route path="/home/starred" exact render={() => <h3>Starred Component</h3>} />
+        </Switch>
       </Layout>
     );
   }

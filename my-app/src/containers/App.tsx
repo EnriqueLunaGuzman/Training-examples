@@ -13,6 +13,7 @@ class App extends Component {
       <MasterLayout>
         <Switch>
           <Route path="/" exact component={HomePage} />
+          <Route path="/home" component={HomePage} />
           <Route path="/admin" component={AdminPage} />
           <Route render={ () => <PageNotFound title="Page Not Found!"/>} />
         </Switch>

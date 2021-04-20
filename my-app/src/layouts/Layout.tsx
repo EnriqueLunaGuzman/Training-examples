@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -55,12 +56,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface Props {
+interface Props extends RouteComponentProps{
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
     children: any;
+    list: string[];
   // items: {}[];
   // title: string;
   // data: any;
@@ -71,40 +73,50 @@ const Layout = ( props: Props ) => {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  /* const drawer = (
-    <div>
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  ); */
+  const handleListItemClick = (event: any, index: number) => {
+    setSelectedIndex(index);
+
+    switch (index) {
+      case 0:
+        if (props.history.location.pathname == "/" || props.history.location.pathname == "/home/starred") {
+          props.history.push( {pathname: '/home/inbox'} );
+        }
+        else{
+          props.history.push( {pathname: '/admin/users'} );
+        }
+        return;
+    
+      case 1:
+        if (props.history.location.pathname == "/" || props.history.location.pathname == "/home/inbox") {
+          props.history.push( {pathname: '/home/starred'} );
+        }
+        else{
+          props.history.push( {pathname: '/admin/admin'} );
+        }
+        return;
+    }
+  };
 
   const drawer = (
     <div>
      {/*  <div className={classes.toolbar} /> */}
       <Divider />
       <List>
-          <ListItem button>
-            <ListItemIcon><InboxIcon /> </ListItemIcon>
-            <ListItemText primary="Inbox" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon><MailIcon /> </ListItemIcon>
-            <ListItemText primary="Drafts" />
-          </ListItem>
+        {props.list.map((text, index) => (
+         <ListItem button key={text} selected={selectedIndex == index} onClick={(event) => handleListItemClick(event, index)}>
+           <ListItemIcon> {index % 2 == 0 ? <InboxIcon /> : <MailIcon />} </ListItemIcon>
+           <ListItemText primary={text}/>
+         </ListItem>
+        ))}
       </List>
     </div>
   );
@@ -176,4 +188,4 @@ const Layout = ( props: Props ) => {
   );
 }
 
-export default Layout;
+export default withRouter(Layout);
