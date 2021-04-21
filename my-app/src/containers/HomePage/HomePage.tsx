@@ -6,9 +6,14 @@ import Inbox from '../../components/inbox/inbox';
 
 class HomePage extends Component {
 
+  list = [
+    {text: 'Inbox', path: '/home/inbox'}, 
+    {text: 'Starred', path: '/home/starred'}
+  ];
+
   render( ) {
     return (
-      <Layout list={['Inbox', 'Starred']}>
+      <Layout list={this.list} defaultSelected={-1}> 
         <Switch>
           <Route path="/" exact render={() => <h3>Welcome to Home!</h3>} />
           <Route path="/home/inbox" exact render={() => <Inbox />} />

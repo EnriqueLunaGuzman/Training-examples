@@ -5,13 +5,18 @@ import Layout from '../../layouts/Layout';
 
 class AdminPage extends Component {
 
+  list = [
+    {text: 'Users', path: '/admin/users'}, 
+    {text: 'Roles', path: '/admin/roles'}
+  ];
+
   render( ) {
     return (
-      <Layout list={['Users', 'Admin']}>
+      <Layout list={this.list} defaultSelected={-1}>
         <Switch>
           <Route path="/admin" exact render={() => <h3>Welcome to Admin!</h3>} />
           <Route path="/admin/users" exact render={() => <h3>Users Component</h3>} />
-          <Route path="/admin/admin" exact render={() => <h3>Admin Component</h3>} />
+          <Route path="/admin/roles" exact render={() => <h3>Roles Component</h3>} />
         </Switch>
       </Layout>
     );

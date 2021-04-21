@@ -1,66 +1,60 @@
 import React, { Component } from 'react';
-import { Theme, withStyles, StyleRules } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
-const useStyles = (theme: Theme): StyleRules => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        margin: theme.spacing(1),
-        height: theme.spacing(16),
-      }, 
-    },
-});
+import MyPaper from '../../UI/Paper';
+import MyProgress from '../../UI/Progress';
 
-/* const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        margin: theme.spacing(1),
-        //width: theme.spacing(16),
-        height: theme.spacing(16),
-      }, 
-    },
-  }),
-); */
 
 interface IProps {
-  classes: any;
+  loading: boolean;
+  data: any;
+  error: any;
 }
 
-class Inbox extends Component<IProps> {
+class Inbox extends Component {
 
- /*  constructor( ) {
-    super();
-    console.log('Inbox constructor');
-  } */
+  state = {loading: true, data: null, error: null};
 
-  render() {
-    console.log('Inbox componentDidMount');
-    // to fetch data from backend
-    return (
-      <div className={this.props.classes.root}>
-        <Paper elevation={1}>
-          <Typography variant="subtitle2" gutterBottom>
-            subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                </Typography>
-          <Typography variant="body1" gutterBottom>
-            body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-            unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-            dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-                </Typography>
-        </Paper>
-      </div>
-    );
-  }
+  render( ) { return <InboxView {...this.state} /> }
 
   componentDidMount( ) {
-    console.log('Inbox componentDidMount');
+
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+      .then(response => this.setState({loading: false, data: response.data, error: null}))
+      .catch(error => this.setState({loading: false, data: null, error: error}))
   }
 }
 
-export default withStyles(useStyles)(Inbox);
+class InboxView extends Component<IProps> {
+
+  renderLoading( ) {
+    const dataJSX = <MyProgress />;
+    return dataJSX;
+  }
+
+  renderError( ) {
+    const dataJSX = <h3>Sorry! An error ocurred!</h3>;
+    return dataJSX;
+  }
+
+  renderSuccess( ) {
+    // const dataJSX = <h3>Successfully retreived data!</h3>;
+    const dataJSX = this.props.data.map( (item: any) => {
+      return <MyPaper key={item.id} title={item.title} body={item.body} />
+    })
+    return dataJSX;
+  }
+
+  render( ) {
+    if ( this.props.loading ) {
+      return this.renderLoading( );
+    } else if ( this.props.data ) {
+      return this.renderSuccess( );
+    } else {
+      return this.renderError( );
+
+    }
+  }
+}
+
+export default Inbox;

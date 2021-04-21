@@ -62,7 +62,8 @@ interface Props extends RouteComponentProps{
    * You won't need it on your project.
    */
     children: any;
-    list: string[];
+    list: any[];
+    defaultSelected: number;
   // items: {}[];
   // title: string;
   // data: any;
@@ -75,35 +76,16 @@ const Layout = ( props: Props ) => {
   const theme = useTheme();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(-1);
+  const [selectedIndex, setSelectedIndex] = React.useState(props.defaultSelected);
 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleListItemClick = (event: any, index: number) => {
+  const handleListItemClick = (event: any, index: number, path: string) => {
     setSelectedIndex(index);
-
-    switch (index) {
-      case 0:
-        if (props.history.location.pathname == "/" || props.history.location.pathname == "/home/starred") {
-          props.history.push( {pathname: '/home/inbox'} );
-        }
-        else{
-          props.history.push( {pathname: '/admin/users'} );
-        }
-        return;
-    
-      case 1:
-        if (props.history.location.pathname == "/" || props.history.location.pathname == "/home/inbox") {
-          props.history.push( {pathname: '/home/starred'} );
-        }
-        else{
-          props.history.push( {pathname: '/admin/admin'} );
-        }
-        return;
-    }
+    props.history.push( {pathname: path} );
   };
 
   const drawer = (
@@ -111,10 +93,10 @@ const Layout = ( props: Props ) => {
      {/*  <div className={classes.toolbar} /> */}
       <Divider />
       <List>
-        {props.list.map((text, index) => (
-         <ListItem button key={text} selected={selectedIndex == index} onClick={(event) => handleListItemClick(event, index)}>
+        {props.list.map((object, index) => (
+         <ListItem button key={object.text} selected={selectedIndex == index} onClick={(event) => handleListItemClick(event, index, object.path)}>
            <ListItemIcon> {index % 2 == 0 ? <InboxIcon /> : <MailIcon />} </ListItemIcon>
-           <ListItemText primary={text}/>
+           <ListItemText primary={object.text}/>
          </ListItem>
         ))}
       </List>
