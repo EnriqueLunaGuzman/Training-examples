@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import MasterLayout from '../layouts/MasterLayout';
 import HomePage from '../containers/HomePage/HomePage';
 import AdminPage from '../containers/AdminPage/AdminPage';
-import PageNotFound from '../containers/PageNotFound/PageNotFound';
+import PageNotFound from '../components/PageNotFound/PageNotFound';
 
 class App extends Component {
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +31,7 @@ const MyPaper = ( props: any ) => {
             <Typography variant="body1" gutterBottom>
                 {props.body}
             </Typography>
+          <Button color="primary" onClick={props.clicked}>Details...</Button>
       </Paper>
     </div>
   );

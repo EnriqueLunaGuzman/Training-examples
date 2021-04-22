@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -26,7 +26,7 @@ interface Props extends RouteComponentProps{
 
 }
 
-const MyAppBar = ( props: any ) => {
+const MyAppBar = ( props: Props ) => {
   const classes = useStyles();
   // console.log('MyAppBar : ', props);
 
