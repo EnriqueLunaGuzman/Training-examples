@@ -1,35 +1,60 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
+// import QueryString from 'query-string';
 
 import MyProgress from '../../UI/Progress';
 import MyCard from '../../UI/Card';
 
+interface MatchParams {
+  id: string;
+}
 
+interface IProps extends RouteComponentProps <MatchParams>{
+ 
+}
 
-interface IProps {
+interface IState {
   loading: boolean;
-  data: any;
+  data: {title: string, body: string} | null;
   error: any;
 }
 
-class EmailDetail extends Component {
 
-  state = {loading: true, data: null, error: null};
+class EmailDetail extends Component<IProps> {
 
-  render( ) { return <EmailDetailView {...this.state} /> }
+  state: IState = {loading: true, data: null, error: null};
+
+  render( ) { return <EmailDetailView {...this.state} {...this.props} /> }
 
   componentDidMount( ) {
 
     // fetch id from address bar (route params)
-    const id = 1;
+    const id = this.props.match.params.id;
+
+     // fetch userid & name (query params) from address bar 
+     // const parsed = QueryString.parse(this.props.location.search);
+     // console.log('EmailDetail query params : ', parsed);
 
     axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-      .then(response => this.setState({loading: false, data: response.data, error: null}))
+      .then(response => {
+        this.setState({loading: false, data: response.data, error: null})
+      })
       .catch(error => this.setState({loading: false, data: null, error: error}))
   }
 }
 
-class EmailDetailView extends Component<IProps> {
+interface IProps2 extends RouteComponentProps {
+  loading: boolean;
+  data: {title: string, body: string} | null;
+  error: any;
+}
+
+class EmailDetailView extends Component<IProps2> {
+
+  backButtonSelectedHandler( ) {
+    this.props.history.goBack();
+  }
 
   renderLoading( ) {
     const dataJSX = <MyProgress />;
@@ -42,7 +67,7 @@ class EmailDetailView extends Component<IProps> {
   }
 
   renderSuccess( ) {
-    const dataJSX = <MyCard title={this.props.data.title} body={this.props.data.body} />
+    const dataJSX = <MyCard title={this.props.data?.title} body={this.props.data?.body} clicked={() => this.backButtonSelectedHandler()} />
     return dataJSX;
   }
 

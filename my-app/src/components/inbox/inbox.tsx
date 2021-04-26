@@ -1,35 +1,51 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
 
 import MyPaper from '../../UI/Paper';
 import MyProgress from '../../UI/Progress';
 
 
-interface IProps {
+interface IProps extends RouteComponentProps{
+  
+}
+interface IState {
   loading: boolean;
-  data: any;
+  data: {}[] | null;
   error: any;
 }
 
-class Inbox extends Component {
+class Inbox extends Component<IProps> {
 
-  state = {loading: true, data: null, error: null};
+  state: IState = {loading: true, data: null, error: null};
 
-  render( ) { return <InboxView {...this.state} /> }
+  render( ) { return <InboxView {...this.state} {...this.props} /> }
 
   componentDidMount( ) {
-
     axios.get('https://jsonplaceholder.typicode.com/posts')
-      .then(response => this.setState({loading: false, data: response.data, error: null}))
+      .then(response => {
+        this.setState({loading: false, data: response.data, error: null})
+        })
       .catch(error => this.setState({loading: false, data: null, error: error}))
   }
 }
 
-class InboxView extends Component<IProps> {
+interface IProps2 extends RouteComponentProps{
+  loading: boolean;
+  data: {}[] | null;
+  error: any;
+}
 
-  mailSelectedHandler( id: string ) {
-    console.log('Selected Email : ', id)
+class InboxView extends Component<IProps2> {
+
+  mailSelectedHandler( id: string) {
+    this.props.history.push( {pathname: `/home/inbox/${id}`} );
   }
+
+ /*  mailSelectedHandler( id: string, userId: string ) {
+    this.props.history.push( {pathname: `/home/inbox/${id}`, search: `?name=${userId}&name=steve` } );
+  } */
+
 
   renderLoading( ) {
     const dataJSX = <MyProgress />;
@@ -42,9 +58,9 @@ class InboxView extends Component<IProps> {
   }
 
   renderSuccess( ) {
-    // const dataJSX = <h3>Successfully retreived data!</h3>;
-    const dataJSX = this.props.data.map( (item: any) => {
-      return <MyPaper key={item.id} title={item.title} body={item.body} clicked={() => this.mailSelectedHandler(item.id)} />
+    // item.userId
+    const dataJSX = this.props.data?.map( (item: any) => {
+      return <MyPaper key={item.id} title={item.title} body={item.body} clicked={() => this.mailSelectedHandler(item.id)} /> 
     })
     return dataJSX;
   }

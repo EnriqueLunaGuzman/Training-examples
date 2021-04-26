@@ -25,7 +25,7 @@ const MyPaper = ( props: any ) => {
   return (
     <div className={classes.root}>
       <Paper elevation={1}>
-            <Typography variant="subtitle2" gutterBottom>
+            <Typography variant="h5" gutterBottom>
                 {props.title}
             </Typography>
             <Typography variant="body1" gutterBottom>
