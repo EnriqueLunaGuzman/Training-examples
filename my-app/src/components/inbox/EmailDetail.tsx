@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { RouteComponentProps } from 'react-router-dom';
 // import QueryString from 'query-string';
 
 import MyProgress from '../../UI/Progress';
 import MyCard from '../../UI/Card';
+import axios from '../../axios';
 
 interface MatchParams {
   id: string;
@@ -36,7 +36,7 @@ class EmailDetail extends Component<IProps> {
      // const parsed = QueryString.parse(this.props.location.search);
      // console.log('EmailDetail query params : ', parsed);
 
-    axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    axios.get(`/posts/${id}`)
       .then(response => {
         this.setState({loading: false, data: response.data, error: null})
       })

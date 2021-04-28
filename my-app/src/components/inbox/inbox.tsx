@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { RouteComponentProps } from 'react-router-dom';
 
 import MyPaper from '../../UI/Paper';
 import MyProgress from '../../UI/Progress';
+import axios from '../../axios';
 
 
 interface IProps extends RouteComponentProps{
@@ -22,7 +22,7 @@ class Inbox extends Component<IProps> {
   render( ) { return <InboxView {...this.state} {...this.props} /> }
 
   componentDidMount( ) {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
+    axios.get('/posts')
       .then(response => {
         this.setState({loading: false, data: response.data, error: null})
         })

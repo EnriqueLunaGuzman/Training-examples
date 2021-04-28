@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import MyTable from '../../UI/Table';
 import MyProgress from '../../UI/Progress';
+import axios from '../../axios';
 
 
 interface IProps {
@@ -19,7 +19,7 @@ class Users extends Component {
 
     componentDidMount() {
 
-        axios.get('https://jsonplaceholder.typicode.com/users')
+        axios.get('/users')
             .then(response => {
                 const users: any[] = response.data;
                 const modUsers = users.map((user: any) => {

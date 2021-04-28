@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import MasterLayout from '../layouts/MasterLayout';
+import MasterLayout from '../UI/layouts/MasterLayout';
 import HomePage from '../containers/HomePage/HomePage';
 import AdminPage from '../containers/AdminPage/AdminPage';
 import PageNotFound from '../components/PageNotFound/PageNotFound';

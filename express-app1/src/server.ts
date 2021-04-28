@@ -1,11 +1,15 @@
 import express from 'express';
+import cors from 'cors';
 
 import postsRouterv1 from './routes/posts';
-import postsRouterv2 from './routes/posts1';
+// import postsRouterv2 from './routes/posts1';
 import usersRouter from './routes/users';
 
 const server = express( );
-const port = 3000;
+const port = 3500;
+
+// Set cors headers
+server.use(cors());
 
 // logging middleware
 server.use( (req, res, next) => {
@@ -14,9 +18,9 @@ server.use( (req, res, next) => {
 });
 
 // register routes
-server.use( '/v1/posts', postsRouterv1 );
-server.use( '/v2/posts', postsRouterv2 );
-server.use( '/v1/users', usersRouter );
+server.use( '/posts', postsRouterv1 );
+// server.use( '/v2/posts', postsRouterv2 );
+server.use( '/users', usersRouter );
 
 server.get( '/', (req, res) => {
     res.send(`Greetings!`);

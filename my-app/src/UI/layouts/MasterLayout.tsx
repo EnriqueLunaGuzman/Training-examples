@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-import MyAppBar from '../UI/AppBar';
+import MyAppBar from '../AppBar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

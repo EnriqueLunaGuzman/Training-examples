@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Layout from '../../layouts/Layout';
+import Layout from '../../UI/layouts/Layout';
 import Users from '../../components/Users/Users';
 
 class AdminPage extends Component {
