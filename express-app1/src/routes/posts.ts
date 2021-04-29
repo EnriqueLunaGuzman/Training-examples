@@ -1,4 +1,7 @@
 import express from 'express';
+import { getRepository } from "typeorm";
+
+import Posts from '../models/posts.entity';
 
 let postsRouterv1 = express.Router( );
 
@@ -10,18 +13,31 @@ let data = {
     ]
 };
 
-postsRouterv1.get('/', (req, res) => {  
-    res.json(data.posts);
+postsRouterv1.post('/', async (req, res) => {
+
+    let data = req.body;
+    console.log(data);
+
+    const newPost = getRepository(Posts).create( data );
+    let [post, error] = await handleAsync(getRepository(Posts).save(newPost));
+
+    if( error ) return res.send(error);
+
+    res.send(post);
+});
+
+postsRouterv1.get('/', async (req, res) => {  
+    let [posts, error] = await handleAsync(getRepository(Posts).find());
+
+    if( error ) return res.send(error);
+
+    res.send(posts);
 });
 
 postsRouterv1.get('/:id', (req, res) => {
     let post = data.posts.filter( item => item.id.toString() === req.params.id );
     res.json(post[0]);
     // res.json(req.params.id);
-});
-
-postsRouterv1.post('/', (req, res) => {
-    res.json('creating in v1...');
 });
 
 postsRouterv1.patch('/', (req, res) => {
@@ -31,5 +47,11 @@ postsRouterv1.patch('/', (req, res) => {
 postsRouterv1.delete('/', (req, res) => {
     res.json('deleting...');
 });
+
+const handleAsync = ( promise: Promise<any>) => {
+    return promise
+        .then( (data: any) => ([data, null]) )
+        .catch( (error: any) => ([null, error]) )
+}
 
 export default postsRouterv1;
