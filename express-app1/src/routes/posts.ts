@@ -1,18 +1,11 @@
 import express from 'express';
-import { getRepository } from "typeorm";
+import { getRepository } from 'typeorm';
 
 import Posts from '../models/posts.entity';
 
 let postsRouterv1 = express.Router( );
 
-let data = {
-    posts: [
-        {id: 1, userId: 1, title: 'sunt aut facere', body: 'sunt aut facere...'},
-        {id: 2, userId: 1, title: 'qui est esse', body: 'qui est esse...'},
-        {id: 3, userId: 1, title: 'ea molestias quasi', body: 'ea molestias quasi...'}
-    ]
-};
-
+// Create a Post
 postsRouterv1.post('/', async (req, res) => {
 
     let data = req.body;
@@ -21,31 +14,71 @@ postsRouterv1.post('/', async (req, res) => {
     const newPost = getRepository(Posts).create( data );
     let [post, error] = await handleAsync(getRepository(Posts).save(newPost));
 
-    if( error ) return res.send(error);
+    if( error ) { return res.send(error); }
 
     res.send(post);
 });
 
+// Read all Post
 postsRouterv1.get('/', async (req, res) => {  
     let [posts, error] = await handleAsync(getRepository(Posts).find());
 
-    if( error ) return res.send(error);
+    if( error ) { return res.send(error); }
 
     res.send(posts);
 });
 
-postsRouterv1.get('/:id', (req, res) => {
-    let post = data.posts.filter( item => item.id.toString() === req.params.id );
-    res.json(post[0]);
-    // res.json(req.params.id);
+// Read single Post based on id
+postsRouterv1.get('/:id', async (req, res) => {
+  
+    const id = req.params.id;
+
+    let [post, error] = await handleAsync(getRepository(Posts).findOne(id));
+
+    if( error ) { return res.send(error); }
+
+    if ( post ) {
+        res.send(post);
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
 });
 
-postsRouterv1.patch('/', (req, res) => {
-    res.json('patching...');
+// Upload single Post based on id
+postsRouterv1.patch('/:id', async (req, res) => {
+
+    const id = req.params.id;
+    const data = req.body;
+
+    let [response, error] = await handleAsync(getRepository(Posts).update(id, data));
+    if( error ) { return res.send(error); }
+
+    let [updatedPost, error2] = await handleAsync(getRepository(Posts).findOne(id));
+    if( error2 ) { return res.send(error2); }
+
+    if ( updatedPost ) {
+        res.send(updatedPost);
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
 });
 
-postsRouterv1.delete('/', (req, res) => {
-    res.json('deleting...');
+// Delete single Post based on id
+postsRouterv1.delete('/:id', async (req, res) => {
+
+    const id = req.params.id;
+
+    let [response, error] = await handleAsync(getRepository(Posts).delete(id));
+    if( error ) { return res.send(error); }
+
+    if ( response.affected === 1 ) {
+        res.send( {deleted: true} );
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
 });
 
 const handleAsync = ( promise: Promise<any>) => {

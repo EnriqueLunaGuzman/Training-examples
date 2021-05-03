@@ -11,7 +11,7 @@ import usersRouter from './routes/users';
 import config from './typeormconfig';
 
 const server = express( );
-const port = process.env.POSTGRES_PORT;
+const port = process.env.SERVER_PORT;
 
 // connect to database
 async function connectToPersistence () {

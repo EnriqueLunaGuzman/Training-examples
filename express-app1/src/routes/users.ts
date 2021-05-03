@@ -1,17 +1,89 @@
 import express from 'express';
+import { getRepository } from 'typeorm';
+
+import Users from '../models/users.entity';
 
 let usersRouter = express.Router( );
 
-let data = {
-    users: [
-        {name: 'Leanne Graham', email: 'Sincere@april.biz', address: {city: 'Gwenborough'}, phone: '1-770-736-8031 x56442', company: {name: 'Romaguera-Crona'}},
-        {name: 'Ervin Howell', email: 'Shanna@melissa.tv', address: {city: 'Wisokyburgh'}, phone: '010-692-6593 x09125', company: {name: 'Deckow-Crist'}},
-        {name: 'Clementine Bauch', email: 'Nathan@yesenia.net', address: {city: 'McKenziehaven'}, phone: '1-463-123-4447', company: {name: 'Romaguera-Jacobson'}}
-    ]
-};
+// Create a Post
+usersRouter.post('/', async (req, res) => {
 
-usersRouter.get('/', (req, res) => {
-    res.json(data.users);
+    let data = req.body;
+    console.log(data);
+
+    const newUser = getRepository(Users).create( data );
+    let [user, error] = await handleAsync(getRepository(Users).save(newUser));
+
+    if( error ) { return res.send(error); }
+
+    res.send(user);
 });
 
+// Read all User
+usersRouter.get('/', async (req, res) => {  
+    let [users, error] = await handleAsync(getRepository(Users).find());
+
+    if( error ) { return res.send(error); }
+
+    res.send(users);
+});
+
+// Read single User based on id
+usersRouter.get('/:id', async (req, res) => {
+  
+    const id = req.params.id;
+
+    let [user, error] = await handleAsync(getRepository(Users).findOne(id));
+
+    if( error ) { return res.send(error); }
+
+    if ( user ) {
+        res.send(user);
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
+});
+
+// Upload single User based on id
+usersRouter.patch('/:id', async (req, res) => {
+
+    const id = req.params.id;
+    const data = req.body;
+
+    let [response, error] = await handleAsync(getRepository(Users).update(id, data));
+    if( error ) { return res.send(error); }
+
+    let [updatedUser, error2] = await handleAsync(getRepository(Users).findOne(id));
+    if( error2 ) { return res.send(error2); }
+
+    if ( updatedUser ) {
+        res.send(updatedUser);
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
+});
+
+// Delete single User based on id
+usersRouter.delete('/:id', async (req, res) => {
+
+    const id = req.params.id;
+
+    let [response, error] = await handleAsync(getRepository(Users).delete(id));
+    if( error ) { return res.send(error); }
+
+    if ( response.affected === 1 ) {
+        res.send( {deleted: true} );
+    } else {
+        res.send(`No post found for ${id}!`);
+
+    }
+});
+
+const handleAsync = ( promise: Promise<any>) => {
+    return promise
+        .then( (data: any) => ([data, null]) )
+        .catch( (error: any) => ([null, error]) )
+}
 export default usersRouter;
