@@ -21,7 +21,7 @@ usersRouter.post('/', async (req, res) => {
 
 // Read all User
 usersRouter.get('/', async (req, res) => {  
-    let [users, error] = await handleAsync(getRepository(Users).find());
+    let [users, error] = await handleAsync(getRepository(Users).find( {relations: ["address","company"]} ));
 
     if( error ) { return res.send(error); }
 
@@ -33,7 +33,7 @@ usersRouter.get('/:id', async (req, res) => {
   
     const id = req.params.id;
 
-    let [user, error] = await handleAsync(getRepository(Users).findOne(id));
+    let [user, error] = await handleAsync(getRepository(Users).findOne(id, {relations: ["address","company"]}));
 
     if( error ) { return res.send(error); }
 
@@ -49,12 +49,14 @@ usersRouter.get('/:id', async (req, res) => {
 usersRouter.patch('/:id', async (req, res) => {
 
     const id = req.params.id;
-    const data = req.body;
+    // const data = req.body;
+    const data = { id: id, ...req.body };
 
-    let [response, error] = await handleAsync(getRepository(Users).update(id, data));
+    // let [response, error] = await handleAsync(getRepository(Users).update(id, data));
+    let [user, error] = await handleAsync(getRepository(Users).save(data));
     if( error ) { return res.send(error); }
 
-    let [updatedUser, error2] = await handleAsync(getRepository(Users).findOne(id));
+    let [updatedUser, error2] = await handleAsync(getRepository(Users).findOne(id, {relations: ["address","company"]}));
     if( error2 ) { return res.send(error2); }
 
     if ( updatedUser ) {
