@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 
-import Address from '../models/address.entity';
-import Company from '../models/company.entity';
+import Address from './address.entity';
+import Company from './company.entity';
 
 @Entity()
-class Users {
+class User {
 
     @PrimaryGeneratedColumn()
     id?: number;
@@ -30,4 +30,4 @@ class Users {
     company?: Company;
 }
 
-export default Users;
+export default User;
