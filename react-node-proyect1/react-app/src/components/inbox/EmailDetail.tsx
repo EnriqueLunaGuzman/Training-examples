@@ -6,7 +6,7 @@ import MyProgress from '../../UI/Progress';
 import MyCard from '../../UI/Card';
 import axios from '../../axios';
 
-interface MatchParams {
+interface MatchParams { 
   id: string;
 }
 
@@ -36,7 +36,7 @@ class EmailDetail extends Component<IProps> {
      // const parsed = QueryString.parse(this.props.location.search);
      // console.log('EmailDetail query params : ', parsed);
 
-    axios.get(`/posts/${id}`)
+    axios.get(`/api/posts/${id}`)
       .then(response => {
         this.setState({loading: false, data: response.data, error: null})
       })

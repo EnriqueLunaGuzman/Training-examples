@@ -5,7 +5,7 @@ import Layout from '../../UI/layouts/Layout';
 import Inbox from '../../components/inbox/inbox';
 import EmailDatail from '../../components/inbox/EmailDetail';
 
-class HomePage extends Component {
+class HomePage extends Component { 
 
   list = [
     {text: 'Inbox', path: '/home/inbox'}, 

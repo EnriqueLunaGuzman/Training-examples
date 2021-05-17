@@ -5,7 +5,7 @@ import config from './typeormconfig';
 import { IRoute } from './routes/index.route'
 import registerCommonMiddleware from './middleware/common.middleware';
 import registerLoggingMiddleware from './middleware/logging.middleware';
-import registerRoutesMiddleware from './middleware/route.middleware';
+import { registerRouteMiddleware, registerUnhandleRoutesMiddleware } from './middleware/route.middleware';
 import registerErrorHandlingMiddleware from './middleware/error.middleware';
 
 class Server {
@@ -37,10 +37,11 @@ class Server {
     }
 
     private registerRoutes( routes: IRoute[] ) {
-        registerRoutesMiddleware( this.server, routes );
+        registerRouteMiddleware( this.server, routes );
     }
 
     private registerErrorHandling( ) {
+        registerUnhandleRoutesMiddleware(  this.server );
         registerErrorHandlingMiddleware( this.server );
     }
 

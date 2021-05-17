@@ -23,7 +23,7 @@ export default function MyCard( props: any ) {
           component="img"
           alt=""
           height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
+          // image="/static/images/cards/contemplative-reptile.jpg"
           title="Contemplative Reptile"
         />
         <CardContent>

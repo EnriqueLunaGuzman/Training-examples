@@ -55,7 +55,7 @@ class Route implements IRoute {
         if( item ) {
             response.json(item);
         } else {
-            response.send(`No post found for ${id}!`);
+            response.send(`No item found for ${id}!`);
         }
     }
 
@@ -70,7 +70,7 @@ class Route implements IRoute {
         if( updatedItem ) {
             response.json(updatedItem);
         } else {
-            response.send(`No post found for ${id}!`);
+            response.send(`No item found for ${id}!`);
         }
     }
     
@@ -84,7 +84,7 @@ class Route implements IRoute {
         if( deleteResponse.affected === 1 ) {
             response.json( {deleted: true} );
         } else {
-            response.send(`No post found for ${id}!`);
+            response.send(`No item found for ${id}!`);
         }
     }
 }

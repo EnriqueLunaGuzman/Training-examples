@@ -22,7 +22,7 @@ class Inbox extends Component<IProps> {
   render( ) { return <InboxView {...this.state} {...this.props} /> }
 
   componentDidMount( ) {
-    axios.get('/posts')
+    axios.get('/api/posts')
       .then(response => {
         this.setState({loading: false, data: response.data, error: null})
         })

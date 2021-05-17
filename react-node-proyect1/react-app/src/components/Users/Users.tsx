@@ -19,8 +19,9 @@ class Users extends Component {
 
     componentDidMount() {
 
-        axios.get('/users')
+        axios.get('/api/users?search=facebook')
             .then(response => {
+              // modify data here
                 const users: any[] = response.data;
                 const modUsers = users.map((user: any) => {
                     return {Users: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
