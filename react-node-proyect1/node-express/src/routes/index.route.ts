@@ -33,15 +33,17 @@ class Route implements IRoute {
 
         let [newItem, error] = await handleAsync(this.service.create(data));
 
-        if ( error ) return response.send(error);
+        if ( error ) return next(error);
         response.json(newItem);
     }
 
     protected get = async ( request: Request, response: Response, next: NextFunction ) => {
 
-        let [items, error] = await handleAsync(this.service.find());
+        let getOption = null;
 
-        if ( error ) return response.send(error);
+        let [items, error] = await handleAsync(this.service.find(getOption));
+
+        if ( error ) return next(error);
         response.json(items);
     }
 
@@ -51,7 +53,7 @@ class Route implements IRoute {
 
         let [item, error] = await handleAsync(this.service.findOne(id));
 
-        if ( error ) return response.send(error);
+        if ( error ) return next(error);
         if( item ) {
             response.json(item);
         } else {
@@ -66,7 +68,7 @@ class Route implements IRoute {
 
         let [updatedItem, error] = await handleAsync(this.service.update(id, data));
 
-        if ( error ) return response.send(error);
+        if ( error ) return next(error);
         if( updatedItem ) {
             response.json(updatedItem);
         } else {
@@ -80,7 +82,7 @@ class Route implements IRoute {
 
         let [deleteResponse, error] = await handleAsync(this.service.delete(id));
 
-        if ( error ) return response.send(error);
+        if ( error ) return next(error);
         if( deleteResponse.affected === 1 ) {
             response.json( {deleted: true} );
         } else {

@@ -17,7 +17,17 @@ class UsersRoute extends Route {
         this.router.patch('/:id', this.patch);
         this.router.delete('/:id', this.delete);
         return this;
-    } 
+    }
+    
+    protected get = async ( request: Request, response: Response, next: NextFunction ) => {
+
+        let getOption = request.query.name;
+
+        let [items, error] = await handleAsync(this.service.find(getOption));
+
+        if ( error ) return next(error);
+        response.json(items);
+    }
     
     protected delete = async ( request: Request, response: Response, next: NextFunction ) => {
 
@@ -25,7 +35,7 @@ class UsersRoute extends Route {
 
         let [deleteResponse, error] = await handleAsync(this.service.delete(id));
 
-        if ( error ) return response.send(error);
+        if ( error ) return next(error);
         if( deleteResponse.affected === 1 ) {
             response.json( {deleted: true, messege: `All users deleted successfully!`} );
         } else {

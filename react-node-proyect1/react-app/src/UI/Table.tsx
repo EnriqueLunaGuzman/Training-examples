@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 interface IProps {
     rows: any[];
+    searchHandler: any;
 }
 
 export default function MyTable( props: IProps ) {
@@ -40,6 +42,8 @@ export default function MyTable( props: IProps ) {
 
   return (
     <Paper className={classes.root}>
+      <TextField id="standard-basic" label="User" onKeyDown={props.searchHandler}/>
+            { props.rows.length ?
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -62,6 +66,8 @@ export default function MyTable( props: IProps ) {
           </TableBody>
         </Table>
       </TableContainer>
+      : <h3>No Data Found!</h3>
+      }
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component="div"

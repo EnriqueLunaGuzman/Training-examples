@@ -4,22 +4,30 @@ import MyTable from '../../UI/Table';
 import MyProgress from '../../UI/Progress';
 import axios from '../../axios';
 
-
-interface IProps {
-  loading: boolean;
-  data: any;
-  error: any;
-}
-
 class Users extends Component {
 
-  state = {loading: true, data: null, error: null};
+    state = {loading: true, data: null, error: null};
 
-  render( ) { return <UsersView {...this.state} /> }
+    searchKeyPressHandler = ( event: any ) => {
+      if( event.key == "Enter" ) {
+        console.log(`Users searchKeyPressHandler : `, event.target.value);
+        const getOption = event.target.value;
+
+        axios.get(`/api/users?name=${getOption}`)
+            .then(response => {
+              // modify data here
+                const users: any[] = response.data;
+                const modUsers = users.map((user: any) => {
+                    return {Users: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
+                });
+                this.setState({ loading: false, data: modUsers, error: null })
+            })
+            .catch(error => this.setState({ loading: false, data: null, error: error }))
+      }
+    }
 
     componentDidMount() {
-
-        axios.get('/api/users?search=facebook')
+        axios.get(`/api/users`)
             .then(response => {
               // modify data here
                 const users: any[] = response.data;
@@ -30,6 +38,15 @@ class Users extends Component {
             })
             .catch(error => this.setState({ loading: false, data: null, error: error }))
     }
+
+    render( ) { return <UsersView {...this.state} searchHandler={this.searchKeyPressHandler} /> }
+}
+
+interface IProps {
+  loading: boolean;
+  data: any;
+  error: any;
+  searchHandler: any;
 }
 
 class UsersView extends Component<IProps> {
@@ -45,7 +62,7 @@ class UsersView extends Component<IProps> {
   }
 
   renderSuccess( ) {
-    const dataJSX = <MyTable rows={this.props.data} />
+    const dataJSX = <MyTable rows={this.props.data} searchHandler={this.props.searchHandler} />
     return dataJSX;
   }
 
