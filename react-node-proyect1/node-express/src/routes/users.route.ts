@@ -16,7 +16,7 @@ class UsersRoute extends Route {
         this.service = service; 
 
         this.router.use(authMiddleware());
-        this.router.post('/', validationMiddleware(UserValidation) ,this.post);
+        this.router.post('/', validationMiddleware(UserValidation), this.post);
         this.router.get('/', this.get);
         this.router.get('/:id', this.getOne);
         this.router.patch('/:id', validationMiddleware(UserValidation, {skipMissingProperties: true}), this.patch);
