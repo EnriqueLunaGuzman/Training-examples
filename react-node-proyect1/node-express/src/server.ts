@@ -7,6 +7,7 @@ import registerCommonMiddleware from './middleware/common.middleware';
 import registerLoggingMiddleware from './middleware/logging.middleware';
 import { registerRouteMiddleware, registerUnhandleRoutesMiddleware } from './middleware/route.middleware';
 import registerErrorHandlingMiddleware from './middleware/error.middleware';
+import {PersistanceConnectivityError} from './shared/error';
 
 class Server {
 
@@ -26,8 +27,7 @@ class Server {
             await createConnection( config );
             console.log(`Persistence layer connected.`);
         } catch( error ) {
-            console.log(`Error connecting to Persistence layer! : `, error);
-            return error;
+            return new PersistanceConnectivityError(error);
         }
     }
 

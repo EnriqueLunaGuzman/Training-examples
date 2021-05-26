@@ -4,47 +4,55 @@ import MyTable from '../../UI/Table';
 import MyProgress from '../../UI/Progress';
 import axios from '../../axios';
 
-class Users extends Component {
+// Redux
+import { connect } from 'react-redux';
+import { updateUsersAction, updateErrorAction} from '../../redux/actions/users';
+
+interface IUserProps {
+  loading: boolean;
+  users: any;
+  error: any;
+  updateUsersAction: any;
+  updateErrorAction: any;
+}
+
+class Users extends Component<IUserProps> {
 
     state = {loading: true, data: null, error: null};
 
     searchKeyPressHandler = ( event: any ) => {
-      if( event.key == "Enter" ) {
-        console.log(`Users searchKeyPressHandler : `, event.target.value);
+      if (event.key === `Enter`){
+        // console.log( `data: `, event.target.value);
         const getOption = event.target.value;
-
-        axios.get(`/api/users?name=${getOption}`)
-            .then(response => {
-              // modify data here
-                const users: any[] = response.data;
-                const modUsers = users.map((user: any) => {
-                    return {Users: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
-                });
-                this.setState({ loading: false, data: modUsers, error: null })
-            })
-            .catch(error => this.setState({ loading: false, data: null, error: error }))
+        this.fetchUsers(`/api/users?name=${getOption}`);
       }
     }
 
+    fetchUsers = (route: string) => {
+      axios.get(route)
+        .then(response => {
+          const users: any[] = response.data;
+          const modUsers = users.map((user: any) => {
+            return { User: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name };
+          });
+          // this.setState({ loading: false, data: modUsers, error: null }); 
+          this.props.updateUsersAction(modUsers);
+        })
+        // .catch(error => this.setState({ loading: false, data: null, error: error })); 
+        .catch(error => this.props.updateErrorAction(error));
+    }
+  
+  
     componentDidMount() {
-        axios.get(`/api/users`)
-            .then(response => {
-              // modify data here
-                const users: any[] = response.data;
-                const modUsers = users.map((user: any) => {
-                    return {Users: user.name, Email: user.email, City: user.address.city, Phone: user.phone, Company: user.company.name};
-                });
-                this.setState({ loading: false, data: modUsers, error: null })
-            })
-            .catch(error => this.setState({ loading: false, data: null, error: error }))
+      this.fetchUsers(`/api/users`);
     }
 
-    render( ) { return <UsersView {...this.state} searchHandler={this.searchKeyPressHandler} /> }
+    render( ) { return <UsersView {...this.props} searchHandler={this.searchKeyPressHandler} /> }
 }
 
 interface IProps {
   loading: boolean;
-  data: any;
+  users: any;
   error: any;
   searchHandler: any;
 }
@@ -62,14 +70,14 @@ class UsersView extends Component<IProps> {
   }
 
   renderSuccess( ) {
-    const dataJSX = <MyTable rows={this.props.data} searchHandler={this.props.searchHandler} />
+    const dataJSX = <MyTable rows={this.props.users} searchHandler={this.props.searchHandler} />
     return dataJSX;
   }
 
   render( ) {
     if ( this.props.loading ) {
       return this.renderLoading( );
-    } else if ( this.props.data ) {
+    } else if ( this.props.users ) {
       return this.renderSuccess( );
     } else {
       return this.renderError( );
@@ -78,4 +86,11 @@ class UsersView extends Component<IProps> {
   }
 }
 
-export default Users;
+// Connect to Redux
+const mapStateToProps = (store: any) => ({
+  loading: store.users.loading,
+  users: store.users.data,
+  error: store.users.error
+});
+
+export default connect(mapStateToProps, {updateUsersAction, updateErrorAction}) (Users);

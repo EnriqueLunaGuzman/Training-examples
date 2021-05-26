@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { handleAsync } from '../shared/utilities';
 import { IService } from '../services/index.service';
 import { Route } from './index.route';
+import { EntityNotFoundError } from '../shared/error';
 
 class UsersRoute extends Route {
 
@@ -39,7 +40,7 @@ class UsersRoute extends Route {
         if( deleteResponse.affected === 1 ) {
             response.json( {deleted: true, messege: `All users deleted successfully!`} );
         } else {
-            response.send(`No item found for ${id}!`);
+            next(new EntityNotFoundError(id));
         }
     }
 }

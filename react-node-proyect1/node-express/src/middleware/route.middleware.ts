@@ -2,6 +2,8 @@ import { Application, Request, Response, NextFunction } from 'express';
 import path from 'path';
 
 import { IRoute } from '../routes/index.route';
+import {APINotImplementedError, RouteNotImplementedError} from '../shared/error';
+
 
 const registerRouteMiddleware = ( server: Application, routes: IRoute[] ) => {
 
@@ -15,8 +17,8 @@ const registerUnhandleRoutesMiddleware = ( server: Application ) => {
     
     // All API requests not handles before
     server.all(`/api/⋆`, (request: Request, response: Response) => {
-        response.send(`API ${request.path} not implemented!`); 
-        // throw new APINotImplementedError(request.path);
+        // response.send(`API ${request.path} not implemented!`); 
+        throw new APINotImplementedError(request.path);
     });
 
     // Handle GET requests (Non-API) will return React app
@@ -26,8 +28,8 @@ const registerUnhandleRoutesMiddleware = ( server: Application ) => {
 
     // Handle unhandle API requests
     server.use( (request: Request, response: Response, next: NextFunction) => {
-        response.send(`Route ${request.path} not implemented!`);
-        // throw new APINotImplementedError(request.path);
+        // response.send(`Route ${request.path} not implemented!`);
+        throw new RouteNotImplementedError(request.path);
     });
 }
 
