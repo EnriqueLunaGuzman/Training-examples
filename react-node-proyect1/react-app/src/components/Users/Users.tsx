@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import MyTable from '../../UI/Table';
 import MyProgress from '../../UI/Progress';

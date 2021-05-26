@@ -4,12 +4,15 @@ import { Switch, Route } from 'react-router-dom';
 import Layout from '../../UI/layouts/Layout';
 import Inbox from '../../components/inbox/inbox';
 import EmailDatail from '../../components/inbox/EmailDetail';
+import Counter from '../../components/Counter/Counter';
+import { connect } from 'react-redux';
 
 class HomePage extends Component { 
 
   list = [
     {text: 'Inbox', path: '/home/inbox'}, 
-    {text: 'Starred', path: '/home/starred'}
+    {text: 'Starred', path: '/home/starred'},
+    {text: 'Counter', path: '/home/counter'}
   ];
 
   render( ) {
@@ -20,6 +23,7 @@ class HomePage extends Component {
           <Route path="/home/inbox/:id" component={EmailDatail} />
           <Route path="/home/inbox" exact component={Inbox} />
           <Route path="/home/starred" render={() => <h3>Starred Component</h3>} />
+          <Route path="/home/counter" exact component={Counter}></Route>
         </Switch>
       </Layout>
     );
