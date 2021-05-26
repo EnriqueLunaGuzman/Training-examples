@@ -45,3 +45,9 @@ export class DataValidationError extends ExtendedError {
         super(500, 'Route Layer' ,`Validation Errors : ${messages}`);  
     }
 }
+
+export class AuthError extends ExtendedError {
+    constructor(error: any){
+        super(401, 'Auth Middleware' ,`Error : ${error.message}`);  
+    }
+}

@@ -7,9 +7,6 @@ const registerLoggingMiddleware = ( server: express.Application ) => {
         console.log(`${req.method} ${req.path}`);
         next( );
     });
-
-    
-
 }
 
 export default registerLoggingMiddleware;

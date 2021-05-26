@@ -4,6 +4,9 @@ import { handleAsync } from '../shared/utilities';
 import { IService } from '../services/index.service';
 import { Route } from './index.route';
 import { EntityNotFoundError } from '../shared/error';
+import { validationMiddleware } from '../middleware/validation.middleware';
+import { authMiddleware } from "../middleware/auth.middleware";
+import UserValidation from '../models/user.validation';
 
 class UsersRoute extends Route {
 
@@ -12,10 +15,11 @@ class UsersRoute extends Route {
         this.api = api;
         this.service = service; 
 
-        this.router.post('/', this.post);
+        this.router.use(authMiddleware());
+        this.router.post('/', validationMiddleware(UserValidation) ,this.post);
         this.router.get('/', this.get);
         this.router.get('/:id', this.getOne);
-        this.router.patch('/:id', this.patch);
+        this.router.patch('/:id', validationMiddleware(UserValidation, {skipMissingProperties: true}), this.patch);
         this.router.delete('/:id', this.delete);
         return this;
     }
