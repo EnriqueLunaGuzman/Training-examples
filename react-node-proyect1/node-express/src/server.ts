@@ -8,6 +8,7 @@ import registerLoggingMiddleware from './middleware/logging.middleware';
 import { registerRouteMiddleware, registerUnhandleRoutesMiddleware } from './middleware/route.middleware';
 import registerErrorHandlingMiddleware from './middleware/error.middleware';
 import {PersistanceConnectivityError} from './shared/error';
+import registerResponseMiddleware from './middleware/response.middleware';
 
 class Server {
 
@@ -34,6 +35,7 @@ class Server {
     private registerMiddlewares( ) {
         registerCommonMiddleware( this.server );
         registerLoggingMiddleware( this.server );
+        registerResponseMiddleware(this.server);
     }
 
     private registerRoutes( routes: IRoute[] ) {
