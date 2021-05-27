@@ -3,7 +3,7 @@ import { validate, ValidationError } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { DataValidationError } from '../shared/error';
 
-
+ 
 export const validationMiddleware = (validator: any, option = {}): RequestHandler => {
 
     return (request: Request, response: Response, next: NextFunction) => {

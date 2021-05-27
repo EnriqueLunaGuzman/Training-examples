@@ -19,7 +19,7 @@ class CompanyValidation{
 }
 
 class UserValidation{
-
+ 
     // @IsDefined({message: `Name must be defined`})
     @IsString({message: `Name must be a string`})
     @IsNotEmpty({message: `Name must be provided`})
