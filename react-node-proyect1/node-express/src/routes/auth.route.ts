@@ -15,7 +15,7 @@ class AuthRoute extends Route {
         this.api = api;
         this.service = service;
 
-        /* Only we need post to send data for authentication */
+        // Only we need post to send data for authentication 
         this.router.post(`/`, validationMiddleware(AuthUserValidation), this.post);
         return this;
     }
@@ -37,7 +37,7 @@ class AuthRoute extends Route {
             token.setExpiration(new Date().getTime() + config.get(`jwt:expiresIn`));
 
             // append token to items
-            items.push({token: token.compact()});
+            items.push({token: token.compact()}); 
             
         }
 

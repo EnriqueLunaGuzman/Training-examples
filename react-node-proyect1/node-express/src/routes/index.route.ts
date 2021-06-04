@@ -6,7 +6,7 @@ import { EntityNotFoundError } from '../shared/error';
 
 interface IRoute {
     api: string;
-    router: Router;
+    router: Router; 
 }
 
 class Route implements IRoute {

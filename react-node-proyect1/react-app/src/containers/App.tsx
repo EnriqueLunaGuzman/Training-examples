@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import MasterLayout from '../UI/layouts/MasterLayout';
 import HomePage from '../containers/HomePage/HomePage';
 import AdminPage from '../containers/AdminPage/AdminPage';
+import LoginPage from '../containers/LoginPage/LoginPage';
 import PageNotFound from '../components/PageNotFound/PageNotFound';
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
           <Route path="/" exact component={HomePage} />
           <Route path="/home" component={HomePage} />
           <Route path="/admin" component={AdminPage} />
+          <Route path="/login" component={LoginPage} />
           <Route render={ () => <PageNotFound title="Page Not Found!"/>} />
         </Switch>
       </MasterLayout>

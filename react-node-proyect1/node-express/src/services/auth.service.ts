@@ -15,7 +15,7 @@ class AuthService extends Service {
 
         if (error) throw new AdaptorError(error);
 
-        return items;
+        return items; 
     }
 }
 
