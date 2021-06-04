@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import LayoutLogin from '../../layouts/LayoutLogin';
+import LayoutLogin from '../../UI/layouts/LayoutLogin';
 import Login from '../../components/Login/Login';
 
-/* LoginPage Component */
+// LoginPage Component 
 class LoginPage extends Component {
 
   render() {

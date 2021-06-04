@@ -38,6 +38,10 @@ const MyAppBar = ( props: Props ) => {
     // console.log('MyAppBar adminButtonHandler');
     props.history.push( {pathname: '/admin'} );
   }
+  const loginButtonClickHandler = ( ) => {
+    // console.log('MyAppBar loginButtonHandler');
+    props.history.push( {pathname: '/login'} );
+  }
 
   return (
     <div className={classes.root}>
@@ -51,7 +55,7 @@ const MyAppBar = ( props: Props ) => {
           </Typography>
           <Button color="inherit" onClick={homeButtonClickHandler}>Home</Button>
           <Button color="inherit" onClick={adminButtonClickHandler}>Admin</Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={loginButtonClickHandler}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
